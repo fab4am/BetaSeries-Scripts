@@ -61,8 +61,5 @@ for serie in [os.path.basename(s) for s in series]:
                 episode = Episode(num=num, path=path)
                 Session.add(episode)
                 season.episodes.append(episode)
-            else:
-                assert( 1 == len(episode))
-                episode = episode[0]
         
 Session.commit()

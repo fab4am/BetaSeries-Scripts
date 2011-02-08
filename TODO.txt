@@ -1,0 +1,27 @@
+Betaseries API
+ * Cache betaseries API
+ * authent betaseries API
+ * betaseries variables in options
+ * create a script that complete the database with data from betaseries 
+ * eventually if authent, complete the database with what's missing
+
+Cleaner API
+ * create a table for renaming purpose
+ * create a script that analyse the table and try to get things with proper names
+ * create a function that dump the table into bash commands to rename effectively things
+
+Torrent API
+ * create something with plugins to find torrents on several websites (most seeded first and stuffs)
+
+FileSystem API
+ * manage subtitles
+ * manage VO VF VOST ?
+
+
+Create something that is able to say "hey all that is missing you should download it"
+Couple that with the torrent API and put files at the right place
+Create a script that check when files are finished beeing downloaded and put them at the right place on the harddrive
+
+Doc :
+ * use swig to generate documentations
+ * update makefile to do make doc ?
