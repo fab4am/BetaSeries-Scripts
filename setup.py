@@ -11,8 +11,9 @@ setup(
         "sqlalchemy==0.6.1",
         "simplejson",
         "web.py",
-        "python-daemon"
-        
+        "python-daemon",
+        "lxml",
+        "piratebay",
     ],
     packages=find_packages(),
     include_package_data=True,

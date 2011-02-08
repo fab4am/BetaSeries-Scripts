@@ -9,3 +9,4 @@ venv:
 
 clean:
 	rm -Rf venv/ seripy.egg-info/
+	rm setipy.db
