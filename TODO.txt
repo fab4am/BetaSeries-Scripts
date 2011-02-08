@@ -1,3 +1,6 @@
+model:
+ * enable to ignore some series, season or episodes
+ 
 Betaseries API
  * Cache betaseries API
  * authent betaseries API
@@ -17,10 +20,10 @@ FileSystem API
  * manage subtitles
  * manage VO VF VOST ?
 
-
-Create something that is able to say "hey all that is missing you should download it"
-Couple that with the torrent API and put files at the right place
-Create a script that check when files are finished beeing downloaded and put them at the right place on the harddrive
+Other: 
+ * Create something that is able to say "hey all that is missing you should download it"
+ * Couple that with the torrent API and put files at the right place
+ * Create a script that check when files are finished beeing downloaded and put them at the right place on the harddrive
 
 Doc :
  * use swig to generate documentations
