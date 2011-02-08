@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import os
+from options import getOption
 
 from sqlalchemy import create_engine, Table, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
-
+dburi = getOption('dburi')
 Base = declarative_base()
-dburi = "sqlite:///setipy.db"
-engine = create_engine(dburi, echo=True)
+engine = create_engine(dburi, echo=getOption('dbverbose'))
 Session = sessionmaker(bind=engine)
 Session = Session()
 
@@ -22,7 +22,7 @@ class Serie(Base):
     """ betaseries id """
     name = Column(String)
     """ name or title of the serie """
-    season = relationship("Season", backref="serie")
+    seasons = relationship("Season", backref="serie")
     """ relationship between Serie and Season """
     
     
@@ -36,6 +36,8 @@ class Season(Base):
     """ primary id """
     num = Column(String)
     """ num like S01 """
+    path = Column(String)
+    """ path in the filesystem """
     id_serie = Column( Integer, ForeignKey( Serie.id , ondelete="SET NULL"), index=True )
     """ reference to the serie """
     episodes = relationship("Episode", backref="season")
