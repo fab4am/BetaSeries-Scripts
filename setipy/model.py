@@ -63,7 +63,19 @@ class Episode(Base):
 
     def __repr__(self):
         return "<Episode('%s', '%s')>" % (self.num, self.name)
+
+class Rename(Base):
+    __tablename__ = 'renames'
+    
+    source = Column(String, primary_key=True)
+    """ The source to rename from """
+    destination = Column(String, primary_key=True)
+    """ The destination proposal """
+    categ = Column(String, primary_key=True)
+    """ This is serie, season or episode """
         
+    def __repr__(self):
+        return "<Rename %s from %s to %s>" % (self.categ, self.source, self.destination)
 
 if not os.path.isfile(dburi[dburi.rfind('/') + 1:]):
     Base.metadata.create_all(engine)
