@@ -12,10 +12,7 @@ def updateDB():
     for serie in Session.query( Serie ).all():
         if serie.bs_id is None or serie.bs_id.startswith('!!'):
             results = api.search(serie.path)
-            if len(results) == 1:
-                serie.bs_id = results[0]['url']
-                serie.name = results[0]['title']
-            elif serie.bs_id is not None and serie.bs_id.startswith('!!'):
+            if len(results) >= 1:
                 results = filter(lambda data: data['url'] == serie.bs_id[2:], results)
                 assert(1 == len(results))
                 serie.bs_id = results[0]['url']
@@ -25,7 +22,7 @@ def updateDB():
             else:
                 serie.bs_id = '??'
         
-        if serie.bs_id is not None and not serie.bs_id.startswith('!!') and not serie.bs_id.startswith('??'):
+        if serie.bs_id is not None and not serie.bs_id.startswith('??'):
             details = api.episodeDetails(serie.bs_id)
             for season_bs in details:
                 season_num = 'S%s' % str(season_bs['number']).zfill(2)
