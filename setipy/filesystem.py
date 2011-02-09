@@ -15,15 +15,15 @@ def updateDB():
     series = filter(lambda serie: os.path.isdir(serie), series)
     for serie in [os.path.basename(s) for s in series]:
     
-        qry = Session.query( Serie ).filter_by(name=serie)
+        qry = Session.query( Serie ).filter_by(path=serie)
         if qry.count() == 0:
-            Session.add(Serie(name=serie))
+            Session.add(Serie(path=serie))
         serie = qry.one()
     
         if serie.seasons is None:
             serie.seasons = []
     
-        seasons = glob(os.path.join( basepath, serie.name, '*'))
+        seasons = glob(os.path.join( basepath, serie.path, '*'))
         seasons = filter(lambda season: os.path.isdir(season), seasons)
     
         for season in [os.path.basename(s) for s in seasons]:
@@ -43,7 +43,7 @@ def updateDB():
                 assert( 1 == len(season))
                 season = season[0] 
         
-            episodes = glob(os.path.join( basepath, serie.name, season.path, '*'))
+            episodes = glob(os.path.join( basepath, serie.path, season.path, '*'))
             episodes = filter(lambda episode: os.path.isfile(episode), episodes)
             episodes = filter(lambda episode: os.path.splitext(episode)[1][1:].lower() in ['avi', 'mkv', 'mov', 'mpg'], episodes)
         

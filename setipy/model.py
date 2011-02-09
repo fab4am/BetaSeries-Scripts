@@ -22,6 +22,8 @@ class Serie(Base):
     """ betaseries id """
     name = Column(String)
     """ name or title of the serie """
+    path = Column(String)
+    """ the path of the serie """
     seasons = relationship("Season", backref="serie")
     """ relationship between Serie and Season """
     
