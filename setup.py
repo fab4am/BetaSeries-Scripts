@@ -10,7 +10,7 @@ setup(
     install_requires=[
         "sqlalchemy==0.6.1",
         "simplejson",
-        "web.py",
+        "Flask",
         "python-daemon",
         "lxml",
         "piratebay",
