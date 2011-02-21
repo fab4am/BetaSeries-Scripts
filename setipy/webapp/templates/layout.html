@@ -2,8 +2,11 @@
 <html>
   <head>
     {% block head %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <title>{% block title %}{% endblock %} - BSScripts</title>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.5.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.mobile-1.0a3.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.mobile.custom.js') }}"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.mobile-1.0a3.css') }}">
     {% endblock %}
   </head>
 <body>

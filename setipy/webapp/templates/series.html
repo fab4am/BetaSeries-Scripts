@@ -1,26 +1,19 @@
-{% extends "layout.html" %}
+{% extends "page.html" %}
 
-{% block content %}
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Path</th>
-                <th>BSid</th>
-                <th>NbSeasons</th>
-            </tr>
-        </thead>
-        <tbody>{% for serie in series %}
-                <tr>
-                    <td>
-                        {% if serie.name %}
-                            <a href="{{ url_for('serie', id=serie.id) }}">{{ serie.name }}</a>
-                        {% endif %}
-                    </td>
-                    <td>{{ serie.path }}</td>
-                    <td>{{ serie.bs_id }}</td>
-                    <td>{{ serie.seasons|length }}</td>
-                </tr>
-        {% endfor %}</tbody>
-    </table>
-{% endblock%}
+{% block pageContent %}
+    <ul data-role="listview">
+        {% for serie in series %}
+            <li>
+                <a href="{{ url_for('serie', id=serie.id) }}">
+                    {% if serie.name %}
+                        [*] {{ serie.name }}
+                    {% else %}
+                        [ ] {{ serie.path }}
+                    {% endif %}
+                </a>
+                {{ serie.seasons|length }}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
