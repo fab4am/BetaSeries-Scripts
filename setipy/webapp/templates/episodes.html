@@ -1,20 +1,13 @@
-{% extends "layout.html" %}
+{% extends "page.html" %}
 
-{% block content %}
-    <table>
-        <thead>
-            <tr>
-                <th>Episode Num</th>
-                <th>Name</th>
-                <th>Path</th>
-            </tr>
-        </thead>
-        <tbody>{% for episode in season.episodes %}
-                <tr>
-                    <td>{{ episode.bs_id }}</td>
-                    <td>{{ episode.name }}</td>
-                    <td>{{ episode.path }}</td>
-                </tr>
-        {% endfor %}</tbody>
-    </table>
-{% endblock%}
+{% block pageContent %}
+    <ul data-role="listview">
+        {% for episode in season.episodes %}
+            <li>
+                {{ episode.num }}
+                {{ episode.name }}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
