@@ -2,7 +2,7 @@
 
 import  os
 
-import setipy.model as model
+import bs.model as model
 
 from flask import Flask, render_template
 app = Flask(__name__)

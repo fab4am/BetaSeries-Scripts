@@ -2,7 +2,7 @@
 
 options = {
     'basepath': '/Volumes/Drobo/Movies/Series/',
-    'dburi': 'sqlite:///setipy.db',
+    'dburi': 'sqlite:///bs.db',
     'dbverbose': False,
     'episodesRegexps': [r'[sS][0-9]+[eE]([0-9]+)', r'[0-9]+[xX]([0-9]+)'],
     'betaseries.apikey': 'c4fa190ce08c',

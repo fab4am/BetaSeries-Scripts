@@ -8,5 +8,5 @@ venv:
 	rm bootstrap.py
 
 clean:
-	rm -Rf venv/ seripy.egg-info/
-	rm setipy.db
+	rm -Rf venv/ bs.egg-info/
+	rm bs.db
