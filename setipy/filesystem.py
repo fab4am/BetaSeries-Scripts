@@ -6,7 +6,8 @@ The aim of this module is to feed or complete the database with the filesystem a
 from options import getOption
 from model import Session, Serie, Season, Episode
 from glob import glob
-import os, re
+import os
+from tools import getSeasonNumFromFoldername, getEpisodeNumFromFilename
 
 def updateDB():
     basepath = getOption('basepath')
@@ -29,11 +30,12 @@ def updateDB():
         for season in [os.path.basename(s) for s in seasons]:
         
             path = season
-            try:
-                num = 'S%s' % re.search(r'([0-9])+', season).group(1).zfill(2)
-            except:
+            num = getSeasonNumFromFoldername(season)
+
+            if num is None:
                 # unable to find a number ... it's probably another folder here
                 continue
+
             season = filter(lambda season: season.num == num, serie.seasons)
             if len(season) == 0:
                 season = Season(num=num, path=path)
@@ -48,13 +50,7 @@ def updateDB():
             episodes = filter(lambda episode: os.path.splitext(episode)[1][1:].lower() in ['avi', 'mkv', 'mov', 'mpg'], episodes)
         
             for episode in [os.path.basename(e) for e in episodes]:
-                path = episode
-                num = None
-                for regexp in getOption('episodesRegexps'):
-                    if re.match(regexp, path):
-                        num = re.search(regexp, path).group(1)
-                if num is not None:
-                    num = '%sE%s' % (season.num, num.zfill(2))
+                num = getEpisodeNumFromFilename(os.path.basename(path))
             
                 episode = filter(lambda episode: episode.path == path, season.episodes)
                 if len(episode) == 0:
