@@ -1,0 +1,34 @@
+{% extends "page.html" %}
+
+{% block pageContent %}
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">Options</li>
+        <li>
+            <label for="enabled">Enabled:</label>
+            <select name="enabled" id="enabled" data-role="slider">
+        		<option value="off" {% if not serie.enabled %}selected="selected"{% endif %}>Off</option>
+        		<option value="on"  {% if     serie.enabled %}selected="selected"{% endif %}>On </option>
+        	</select>
+        </li>
+    </ul>
+
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">Seasons</li>
+        {% for season in serie.seasons %}
+            <li>
+                <a href="{{ url_for('episodes', id_serie=serie.id, season_num=season.num) }}">{{ season.num }}</a>
+                {{ season.episodes|length }}
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#enabled').bind('change', function() {
+                var v = $(this).val();
+                $.ajax({url: '{{ url_for("ajax", action="setEnabled") }}', data:{ kind:'serie', id:{{serie.id}}, value:v } });
+            });
+        })
+    </script>
+
+{% endblock %}

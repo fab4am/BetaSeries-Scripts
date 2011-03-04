@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import glob
 
 setup(
-    name='seripy',
+    name='bs',
     version="1.0",
     description="Series related Scripts",
     author="Jonathan Adami",

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
-{% block content %}
-	<div data-role="page" {% block pageOptions %}name="main_page"{% endblock %}>
+{% block page %}
+	<div data-role="page" {% block pageOptions %}{% endblock %}>
 
 		{% block pageHeader %}
 			<div data-role="header" data-position="fixed">
