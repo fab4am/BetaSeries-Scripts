@@ -23,7 +23,7 @@ def serie(id):
     serie = model.Session.query(model.Serie).get(id)
     return render_template('serie.html', serie=serie)
 
-@app.route('/season/<id_serie>/<season_num>')
+@app.route('/season/<int:id_serie>/<season_num>')
 def season(id_serie, season_num):
     serie = model.Session.query(model.Serie).get(id_serie)
     seasons = filter(lambda item: item.num == season_num, serie.seasons)
@@ -86,3 +86,11 @@ def options():
         
     options = model.Session.query( model.Option ).all()
     return render_template('options.html', options=options)
+
+@app.route('/sync/<kind>')
+def sync(kind):
+    if kind == 'disk':
+        from bs.filesystem import updateDB
+        updateDB()
+    
+    return 'ok'

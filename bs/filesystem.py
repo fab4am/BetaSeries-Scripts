@@ -50,14 +50,18 @@ def updateDB():
             episodes = filter(lambda episode: os.path.splitext(episode)[1][1:].lower() in ['avi', 'mkv', 'mov', 'mpg'], episodes)
         
             for episode in [os.path.basename(e) for e in episodes]:
-                num = getEpisodeNumFromFilename(os.path.basename(path))
+                num = getEpisodeNumFromFilename(os.path.basename(episode))
             
-                episode = filter(lambda episode: episode.path == path, season.episodes)
+                episode = filter(lambda episode: episode.num == num, season.episodes)
                 if len(episode) == 0:
                     episode = Episode(num=num, path=path)
                     Session.add(episode)
                     season.episodes.append(episode)
-        
+                else:
+                    episode = episode[0]
+                    episode.num = num
+                    episode.path = path
+    Session.flush()
     Session.commit()
 
 if __name__ == '__main__':
