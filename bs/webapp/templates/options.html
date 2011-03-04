@@ -1,0 +1,18 @@
+{% extends "page.html" %}
+
+{% block pageContent %}
+
+    <form action="{{ url_for('options') }}" method="post">
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">Options</li>
+            {% for option in options %}
+                <li>
+                    <label for="option_{{ option.id }}">{{ option.key }}</label>
+                    <input type="text" name="option_{{ option.id }}" id="option_{{ option.id }}" value="{{ option.value }}" />
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="submit" data-theme="a" name="submit" value="submit-value">Submit</button> 
+	</form>
+	
+{% endblock %}

@@ -71,3 +71,18 @@ def downloads():
 @app.route('/renames')
 def renames():
 	return render_template('renames.html')
+
+@app.route('/options', methods=['GET', 'POST'])
+def options():
+    if request.method == 'POST':
+        for option in request.form.items():
+            name, value = option
+            if name.startswith('option_'):
+                id_option = int(name.split('_')[1])
+                model.Session.query( model.Option ).get(id_option).value = value
+        
+        model.Session.flush()
+        model.Session.commit()
+        
+    options = model.Session.query( model.Option ).all()
+    return render_template('options.html', options=options)

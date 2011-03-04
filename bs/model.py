@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import os
-from options import getOption
 
 from sqlalchemy import create_engine, Table, Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
-dburi = getOption('dburi')
+dburi = 'sqlite:///bs.db'
 Base = declarative_base()
-engine = create_engine(dburi, echo=getOption('dbverbose'))
+engine = create_engine(dburi, echo=False)
 Session = sessionmaker(bind=engine)
 Session = Session()
 
@@ -71,6 +70,20 @@ class Episode(Base):
 
     def __repr__(self):
         return "<Episode('%s', '%s')>" % (self.num, self.name)
+
+class Option(Base):
+    __tablename__ = 'options'
+
+    id = Column(Integer, primary_key=True)
+    """ primary id """
+    key = Column(String)
+    """ num like S01 """
+    value = Column(String)
+    """ path in the filesystem """
+
+    def __repr__(self):
+        return "<Option('%s', '%s')>" % (self.key, self.value)
+
 
 if not os.path.isfile(dburi[dburi.rfind('/') + 1:]):
     Base.metadata.create_all(engine)

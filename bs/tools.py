@@ -11,9 +11,10 @@ def getSeasonNumFromFoldername(foldername):
 
 def getEpisodeNumFromFilename(filename):
 	d = None
-	for regexp in getOption('episodesRegexps'):
-		if re.match(regexp, filename):
-			d = dict(zip( ('s', 'e'), [ t.zfill(2) for t in re.search(regexp, filename).groups()] )
+	for regexp in getOption('episodesRegexps').split('|||'):
+	    p = re.compile(regexp)
+		if p.match(filename):
+			d = dict(zip( ('s', 'e'), [ t.zfill(2) for t in p.search(filename).groups()] )
 	
 	if d is not None:
 		return "S%sE%s" % d.values()

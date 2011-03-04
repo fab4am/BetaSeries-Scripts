@@ -1,18 +1,34 @@
 # -*- coding: utf-8 -*-
 
-options = {
-    'basepath': '/Volumes/Drobo/Movies/Series/',
-    'dburi': 'sqlite:///bs.db',
-    'dbverbose': False,
-    'episodesRegexps': [r'[sS]([0-9]+)[eE]([0-9]+)', r'([0-9]+)[xX]([0-9]+)'],
+import model
+
+defaults = {
+    'basepath': '',
+    'episodesRegexps': '[sS]([0-9]+)[eE]([0-9]+)|||([0-9]+)[xX]([0-9]+)',
     'betaseries.apikey': 'c4fa190ce08c',
     'flask.host': '127.0.0.1',
     'flask.port': 5000,
     'flask.debug': True,
 }
 
+
+if model.Session.query( model.Option ).count() == 0:
+    for opt in defaults:
+        model.Session.add( model.Option(key=opt, value=defaults[opt]) )
+    model.Session.flush()
+    model.Session.commit()
+
+
 def getOption(key):
-    """ One day in database and such """
-    if key not in options:
-        return None
-    return options[key]
+    
+    try:
+        return model.Session.query( model.Option ).filter_by( key=key ).one().value
+    except:
+        if key in defaults:
+            model.Session.add( model.Option(key=key, value=defaults[key]) )
+            model.Session.flush()
+            model.Session.commit()
+            
+            return defaults[key]
+    
+    return None
