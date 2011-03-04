@@ -23,12 +23,12 @@ def serie(id):
     serie = model.Session.query(model.Serie).get(id)
     return render_template('serie.html', serie=serie)
 
-@app.route('/episodes/<id_serie>/<season_num>')
-def episodes(id_serie, season_num):
+@app.route('/season/<id_serie>/<season_num>')
+def season(id_serie, season_num):
     serie = model.Session.query(model.Serie).get(id_serie)
     seasons = filter(lambda item: item.num == season_num, serie.seasons)
     assert(len(seasons) == 1)
-    return render_template('episodes.html', serie=serie, season=seasons[0])
+    return render_template('season.html', serie=serie, season=seasons[0])
     
 @app.route('/episode/<id_serie>/<episode_num>')
 def episode(id_serie, episode_num):

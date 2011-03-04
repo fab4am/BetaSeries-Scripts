@@ -16,7 +16,7 @@
         <li data-role="list-divider">Seasons</li>
         {% for season in serie.seasons %}
             <li>
-                <a href="{{ url_for('episodes', id_serie=serie.id, season_num=season.num) }}">{{ season.num }}</a>
+                <a href="{{ url_for('season', id_serie=serie.id, season_num=season.num) }}">{{ season.num }}</a>
                 {{ season.episodes|length }}
             </li>
         {% endfor %}
