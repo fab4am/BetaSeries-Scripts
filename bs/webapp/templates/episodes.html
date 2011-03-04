@@ -1,11 +1,19 @@
 {% extends "page.html" %}
 
 {% block pageContent %}
-    <ul data-role="listview">
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">Options</li>
+        <li>Refresh all ?</li>
+    </ul>
+
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">Episodes list</li>
         {% for episode in season.episodes %}
             <li>
-                {{ episode.num }}
-                {{ episode.name }}
+                <a href="{{ url_for('episode', id_serie=serie.id, episode_num=episode.num) }}">
+                    {{ episode.num }}
+                    {{ episode.name }}
+                </a>
             </li>
         {% endfor %}
     </ul>

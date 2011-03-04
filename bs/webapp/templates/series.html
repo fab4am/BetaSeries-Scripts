@@ -1,7 +1,13 @@
 {% extends "page.html" %}
 
 {% block pageContent %}
-    <ul data-role="listview">
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">Options</li>
+        <li>Refresh all ?</li>
+    </ul>
+
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">Series list</li>
         {% for serie in series %}
             <li>
                 <a href="{{ url_for('serie', id=serie.id) }}">
