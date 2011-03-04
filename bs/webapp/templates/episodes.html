@@ -3,7 +3,13 @@
 {% block pageContent %}
     <ul data-role="listview" data-inset="true">
         <li data-role="list-divider">Options</li>
-        <li>Refresh all ?</li>
+        <li>
+            <label for="enabled">Enabled:</label>
+            <select name="enabled" id="enabled" data-role="slider">
+        		<option value="off" {% if not season.enabled %}selected="selected"{% endif %}>Off</option>
+        		<option value="on"  {% if     season.enabled %}selected="selected"{% endif %}>On </option>
+        	</select>
+        </li>
     </ul>
 
     <ul data-role="listview" data-inset="true">
@@ -17,5 +23,14 @@
             </li>
         {% endfor %}
     </ul>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#enabled').bind('change', function() {
+                var v = $(this).val();
+                $.ajax({url: '{{ url_for("ajax", action="setEnabled") }}', data:{ kind:'season', id:{{season.id}}, value:v } });
+            });
+        })
+    </script>
 
 {% endblock %}

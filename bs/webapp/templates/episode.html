@@ -3,7 +3,23 @@
 {% block pageContent %}
     <ul data-role="listview" data-inset="true">
         <li data-role="list-divider">Options</li>
-        <li>Enables Yes/No</li>
+        <li>
+            <label for="enabled">Enabled:</label>
+            <select name="enabled" id="enabled" data-role="slider">
+        		<option value="off" {% if not episode.enabled %}selected="selected"{% endif %}>Off</option>
+        		<option value="on"  {% if     episode.enabled %}selected="selected"{% endif %}>On </option>
+        	</select>
+        </li>
     </ul>
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#enabled').bind('change', function() {
+                var v = $(this).val();
+                $.ajax({url: '{{ url_for("ajax", action="setEnabled") }}', data:{ kind:'episode', id:{{episode.id}}, value:v } });
+            });
+        })
+    </script>
+    
 
 {% endblock %}

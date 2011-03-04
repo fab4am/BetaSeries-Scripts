@@ -4,7 +4,8 @@ import  os
 
 import bs.model as model
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+
 app = Flask(__name__)
 
 
@@ -33,6 +34,33 @@ def episodes(id_serie, season_num):
 def episode(id_serie, episode_num):
 	episode = model.Session.query( model.Episode ).filter_by(num=episode_num).join( model.Season ).filter_by(id_serie=id_serie).one()
 	return render_template('episode.html', episode=episode)
+
+@app.route('/ajax/<action>')
+def ajax(action):
+    if action == 'setEnabled':
+        kind = request.args.get('kind', None)
+        if kind is not None and kind in ['serie', 'season', 'episode']:
+            kid = request.args.get('id', None)
+            value = request.args.get('value', None)
+            
+            if kid is None or value is None:
+                raise Exception('Please provide id/value pair')
+            
+            if value not in ['on', 'off']:
+                raise Exception('Value can only be on/off')
+            
+            models = {
+                'serie': model.Serie,
+                'episode': model.Episode,
+                'season': model.Season
+            }
+            model.Session.query( models[kind] ).get(kid).enabled = (value == 'on')
+            model.Session.flush
+            
+            return 'ok'
+            
+    	raise Exception('Provide a valid kind')
+    raise Exception('Unknown action')
 
 @app.route('/downloads')
 def downloads():
