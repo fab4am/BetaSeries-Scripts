@@ -90,7 +90,8 @@ def options():
 @app.route('/sync/<kind>')
 def sync(kind):
     if kind == 'disk':
-        from bs.filesystem import updateDB
-        updateDB()
+        from bs.filesystem import FileSystemSyncer
+        FileSystemSyncer().syncAll()
+        model.Session.commit()
     
     return 'ok'
