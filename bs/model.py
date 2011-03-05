@@ -24,8 +24,6 @@ class Serie(Base):
     """ the path of the serie """
     enabled = Column(Boolean, default = True)
     """ Is the serie enabled """
-    seasons = relationship("Season", backref="serie")
-    """ relationship between Serie and Season """
     
     
     def __repr__(self):
@@ -44,8 +42,8 @@ class Season(Base):
     """ Is the season enabled """
     id_serie = Column( Integer, ForeignKey( Serie.id , ondelete="SET NULL"), index=True )
     """ reference to the serie """
-    episodes = relationship("Episode", backref="season")
-    """ relationship between Season and Episode """
+    serie = relationship("Serie", backref="seasons")
+    """ relationship between Serie and Season """
     
 
     def __repr__(self):
@@ -66,6 +64,8 @@ class Episode(Base):
     """ Is the episode enabled """
     id_season = Column( Integer, ForeignKey( Season.id , ondelete="SET NULL"), index=True )
     """ reference to the season """
+    season = relationship("Season", backref="episodes")
+    """ relationship between Season and Episode """
 
     def __repr__(self):
         return "<Episode('%s', '%s')>" % (self.num, self.name)
@@ -82,6 +82,24 @@ class Option(Base):
 
     def __repr__(self):
         return "<Option('%s', '%s')>" % (self.key, self.value)
+
+class Download(Base):
+    __tablename__ = 'downloads'
+
+    id = Column(Integer, primary_key=True)
+    """ primary id """
+    link = Column(String)
+    """ Link of the torrent file used for this download """
+    finished = Column(Boolean, default = False)
+    """ Is the download finished """
+
+    id_episode = Column( Integer, ForeignKey( Episode.id , ondelete="SET NULL"), index=True )
+    """ link to the episode downloaded """
+    episode = relationship("Episode", backref="downloads")
+    """ relationship between Download and Episode """
+
+    def __repr__(self):
+        return "<Download('%s', '%s')>" % (self.link, self.episode)
 
 
 if not os.path.isfile(dburi[dburi.rfind('/') + 1:]):

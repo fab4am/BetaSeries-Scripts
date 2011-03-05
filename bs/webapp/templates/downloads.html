@@ -1,7 +1,21 @@
 {% extends "page.html" %}
 
 {% block pageContent %}
-    <ul data-role="listview">
-        <li>Ici les downloads</li>
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">Options</li>
+        <li>
+            Download All
+        </li>
     </ul>
+
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">Pending</li>
+        {% for episode in downloads %}
+            <li>
+                {{ episode.num }}
+                {{ episode.name }}
+            </li>
+        {% endfor %}
+    </ul>
+
 {% endblock %}

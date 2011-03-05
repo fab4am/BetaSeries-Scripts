@@ -3,6 +3,7 @@
 import  os
 
 import bs.model as model
+import bs.downloads as downloadsTools
 from bs.filesystem import FileSystemSyncer
 from bs.bs_updater import BetaseriesSyncer
 
@@ -13,7 +14,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-	return render_template('menu.html')
+    return render_template('menu.html')
 
 @app.route('/series')
 def series():
@@ -34,8 +35,8 @@ def season(id_serie, season_num):
     
 @app.route('/episode/<id_serie>/<episode_num>')
 def episode(id_serie, episode_num):
-	episode = model.Session.query( model.Episode ).filter_by(num=episode_num).join( model.Season ).filter_by(id_serie=id_serie).one()
-	return render_template('episode.html', episode=episode)
+    episode = model.Session.query( model.Episode ).filter_by(num=episode_num).join( model.Season ).filter_by(id_serie=id_serie).one()
+    return render_template('episode.html', episode=episode)
 
 @app.route('/ajax/<action>')
 def ajax(action):
@@ -61,18 +62,16 @@ def ajax(action):
             
             return 'ok'
             
-    	raise Exception('Provide a valid kind')
+        raise Exception('Provide a valid kind')
     raise Exception('Unknown action')
 
 @app.route('/downloads')
 def downloads():
-	episodes = model.Session.query( model.Episode ).filter_by(path=None).all()
-	raise Exception(episodes)
-	return render_template('downloads.html')
+    return render_template('downloads.html', downloads=downloadsTools.getPendingDownloads())
 
 @app.route('/renames')
 def renames():
-	return render_template('renames.html')
+    return render_template('renames.html')
 
 @app.route('/options', methods=['GET', 'POST'])
 def options():

@@ -3,12 +3,14 @@
 import model
 
 defaults = {
-    'basepath': '',
+    'basepath': '/tmp',
     'episodesRegexps': '[sS]([0-9]+)[eE]([0-9]+)|||([0-9]+)[xX]([0-9]+)',
     'betaseries.apikey': 'c4fa190ce08c',
     'flask.host': '127.0.0.1',
     'flask.port': 5000,
     'flask.debug': True,
+    'download.torrent.folder': '/tmp',
+    'download.torrent.watch': '/tmp',
 }
 
 
