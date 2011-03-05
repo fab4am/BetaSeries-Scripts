@@ -9,6 +9,7 @@
         		<option value="off" {% if not season.enabled %}selected="selected"{% endif %}>Off</option>
         		<option value="on"  {% if     season.enabled %}selected="selected"{% endif %}>On </option>
         	</select>
+        	<li><a href="/sync/disk/{{ season.serie.id }}/{{ season.id }}">Sync Season from disk</a></li>
         </li>
     </ul>
 

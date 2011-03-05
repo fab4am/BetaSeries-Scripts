@@ -12,15 +12,13 @@ defaults = {
 }
 
 
-if model.Session.query( model.Option ).count() == 0:
-    for opt in defaults:
-        model.Session.add( model.Option(key=opt, value=defaults[opt]) )
-    model.Session.flush()
-    model.Session.commit()
-
-
 def getOption(key):
-    
+    if model.Session.query( model.Option ).count() == 0:
+        for opt in defaults:
+            model.Session.add( model.Option(key=opt, value=defaults[opt]) )
+        model.Session.flush()
+        model.Session.commit()
+
     try:
         return model.Session.query( model.Option ).filter_by( key=key ).one().value
     except:

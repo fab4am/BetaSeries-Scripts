@@ -3,6 +3,7 @@
 import  os
 
 import bs.model as model
+from bs.filesystem import FileSystemSyncer
 
 from flask import Flask, render_template, request
 
@@ -15,7 +16,7 @@ def index():
 
 @app.route('/series')
 def series():
-    series = model.Session.query(model.Serie).all()
+    series = model.Session.query( model.Serie ).all()
     return render_template('series.html', series=series)
 
 @app.route('/serie/<id>')
@@ -88,10 +89,25 @@ def options():
     return render_template('options.html', options=options)
 
 @app.route('/sync/<kind>')
-def sync(kind):
+@app.route('/sync/<kind>/<int:serie_id>')
+@app.route('/sync/<kind>/<int:serie_id>/<int:season_id>')
+@app.route('/sync/<kind>/<int:serie_id>/<int:season_id>/<int:episode_id>')
+def sync(kind, serie_id=None, season_id=None, episode_id=None):
     if kind == 'disk':
-        from bs.filesystem import FileSystemSyncer
-        FileSystemSyncer().syncAll()
+        
+        syncer = FileSystemSyncer()
+        if episode_id is not None:
+            episode = model.Session.query( model.Episode ).get(episode_id)
+            syncer.syncEpisode(episode.season.serie.path, episode.season.path, episode.path)
+        elif season_id is not None:
+            season = model.Session.query( model.Season ).get(season_id)
+            syncer.syncSeason(season.serie.path, season.path)
+        elif serie_id is not None:
+            serie = model.Session.query( model.Serie ).get(serie_id)
+            syncer.syncSerie(serie.path)
+        else:
+            syncer.syncAll()
+            
         model.Session.commit()
     
     return 'ok'

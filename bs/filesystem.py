@@ -35,7 +35,10 @@ class FileSystemSyncer:
         seasons = filter(lambda season: os.path.isdir(season), seasons)
     
         for season in [os.path.basename(s) for s in seasons]:
-            self.syncSeason(serie.path, season)
+            try:
+                self.syncSeason(serie.path, season)
+            except:
+                pass
     
     def syncSeason(self, serie, season):
         qry = Session.query( Serie ).filter_by(path=serie)
@@ -64,7 +67,10 @@ class FileSystemSyncer:
         episodes = filter(lambda episode: os.path.isfile(episode), episodes)
 
         for episode in [os.path.basename(e) for e in episodes]:
-            self.syncEpisode(serie.path, season.path, episode)
+            try:
+                self.syncEpisode(serie.path, season.path, episode)
+            except:
+                pass
     
     def syncEpisode(self, serie, season, episode):
         qry = Session.query( Season ).filter_by(path=season).join( Serie ).filter_by(path=serie)

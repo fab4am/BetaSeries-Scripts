@@ -10,3 +10,6 @@ venv:
 clean:
 	rm -Rf venv/ bs.egg-info/
 	rm bs.db
+
+app:
+	python2.6 bs/ui.py

@@ -4,13 +4,12 @@ import os
 
 from sqlalchemy import create_engine, Table, Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 
 dburi = 'sqlite:///bs.db'
 Base = declarative_base()
 engine = create_engine(dburi, echo=False)
-Session = sessionmaker(bind=engine)
-Session = Session()
+Session = scoped_session(sessionmaker(bind=engine))()
 
 class Serie(Base):
     __tablename__ = 'series'
