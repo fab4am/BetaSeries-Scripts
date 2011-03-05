@@ -10,6 +10,7 @@
         		<option value="on"  {% if     season.enabled %}selected="selected"{% endif %}>On </option>
         	</select>
         	<li><a href="/sync/disk/{{ season.serie.id }}/{{ season.id }}">Sync Season from disk</a></li>
+        	<li><a href="/sync/bs/{{ season.serie.id }}/{{ season.id }}">Sync Season with BetaSeries</a></li>
         </li>
     </ul>
 

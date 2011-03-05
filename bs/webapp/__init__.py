@@ -4,6 +4,7 @@ import  os
 
 import bs.model as model
 from bs.filesystem import FileSystemSyncer
+from bs.bs_updater import BetaseriesSyncer
 
 from flask import Flask, render_template, request
 
@@ -108,6 +109,12 @@ def sync(kind, serie_id=None, season_id=None, episode_id=None):
         else:
             syncer.syncAll()
             
-        model.Session.commit()
+    if kind == 'bs':
+        
+        syncer = BetaseriesSyncer()
+        if serie_id and season_id:
+            season = model.Session.query( model.Season ).get(season_id)
+            syncer.syncSeason(season.serie, season)
     
+    model.Session.commit()
     return 'ok'

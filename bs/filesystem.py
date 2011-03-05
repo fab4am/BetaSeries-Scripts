@@ -21,7 +21,7 @@ class FileSystemSyncer:
         
         for serie in [os.path.basename(s) for s in series]:
             self.syncSerie(serie)
-    
+        
     def syncSerie(self, serie):
         qry = Session.query( Serie ).filter_by(path=serie)
         if qry.count() == 0:
