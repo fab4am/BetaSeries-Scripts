@@ -4,7 +4,7 @@
     <ul data-role="listview" data-inset="true">
         <li data-role="list-divider">Options</li>
         <li>
-            Download All
+            <a href="/downloads/all">Download All</a>
         </li>
     </ul>
 
@@ -14,6 +14,16 @@
             <li>
                 {{ episode.num }}
                 {{ episode.name }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">Downloading</li>
+        {% for download in downloading %}
+            <li>
+                {{ download.episode.num }}
+                {{ download.episode.name }}
             </li>
         {% endfor %}
     </ul>

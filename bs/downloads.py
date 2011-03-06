@@ -14,26 +14,29 @@ def getPendingDownloads():
 
 def downloadAll():
     for episode in getPendingDownloads():
-        search_text = "%s %s" % (episode.season.serie.name, episode.num)
+        downloadEpisode(episode)
+
+def downloadEpisode(episode):
+    search_text = "%s %s" % (episode.season.serie.name, episode.num)
+    
+    url = 'http://thepiratebay.org/search/%s/0/7/0' % urllib.quote(search_text)
+    search = urllib2.urlopen( url ).read()
+    torrents = BeautifulSoup(search).findAll('td')
+    if len(torrents) > 1:
+        torrent = torrents[1]
+        link = BeautifulSoup("<html><body>%s</body></html>" % torrent).findAll('a')[1]
+        link = re.search('href="(.*?)"', str(link)).group(1)
         
-        url = 'http://thepiratebay.org/search/%s/0/7/0' % urllib.quote(search_text)
-        search = urllib2.urlopen( url ).read()
-        torrents = BeautifulSoup(search).findAll('td')
-        if len(torrents) > 1:
-            torrent = torrents[1]
-            link = BeautifulSoup("<html><body>%s</body></html>" % torrent).findAll('a')[1]
-            link = re.search('href="(.*?)"', str(link)).group(1)
-            
-            if link.rstrip():
-                download = model.Download()
-                download.torrentFile = link
-                download.episode = episode
-            
-                model.Session.add( download )
-            
-                fp = open( os.path.join( getOption('download.torrent.folder'), os.path.basename(link) ) , 'w')
-                fp.write( urllib2.urlopen( link ).read() )
-                fp.close()
+        if link.rstrip():
+            download = model.Download()
+            download.torrentFile = link
+            download.episode = episode
+        
+            model.Session.add( download )
+        
+            fp = open( os.path.join( getOption('download.torrent.folder'), os.path.basename(link) ) , 'w')
+            fp.write( urllib2.urlopen( link ).read() )
+            fp.close()
 
 if __name__ == '__main__':
     downloadAll()

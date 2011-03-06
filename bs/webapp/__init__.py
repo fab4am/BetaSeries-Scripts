@@ -66,8 +66,19 @@ def ajax(action):
     raise Exception('Unknown action')
 
 @app.route('/downloads')
-def downloads():
-    return render_template('downloads.html', downloads=downloadsTools.getPendingDownloads())
+@app.route('/downloads/<episode_id>')
+def downloads(episode_id=None):
+    if episode_id:
+        if episode_id == 'all':
+            downloadsTools.downloadAll()
+        else:
+            episode = model.Session.query( model.Episode ).join(model.Download ).get( episode_id )
+            downloadsTools.downloadEpisode(episode)
+        model.Session.flush()
+        model.Session.commit()
+    
+    downloading = model.Session.query( model.Download ).filter_by(finished=False).all()
+    return render_template('downloads.html', downloads=downloadsTools.getPendingDownloads(), downloading=downloading)
 
 @app.route('/renames')
 def renames():
