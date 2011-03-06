@@ -9,7 +9,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 dburi = 'sqlite:///bs.db'
 Base = declarative_base()
 engine = create_engine(dburi, echo=False)
-Session = scoped_session(sessionmaker(bind=engine))()
+Session = scoped_session(sessionmaker(autocommit=True, bind=engine))()
 
 class Serie(Base):
     __tablename__ = 'series'

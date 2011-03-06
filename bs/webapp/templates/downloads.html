@@ -12,6 +12,7 @@
         <li data-role="list-divider">Pending</li>
         {% for episode in downloads %}
             <li>
+                {{ episode.season.serie.name }}
                 {{ episode.num }}
                 {{ episode.name }}
             </li>
@@ -22,6 +23,7 @@
         <li data-role="list-divider">Downloading</li>
         {% for download in downloading %}
             <li>
+                {{ episode.season.serie.name }}
                 {{ download.episode.num }}
                 {{ download.episode.name }}
             </li>

@@ -79,7 +79,6 @@ def downloads(episode_id=None):
             downloadsTools.downloadEpisode(episode)
             
         model.Session.flush()
-        model.Session.commit()
         
         return 'ok'
     
@@ -111,7 +110,6 @@ def options():
                 model.Session.query( model.Option ).get(id_option).value = value
         
         model.Session.flush()
-        model.Session.commit()
         
     options = model.Session.query( model.Option ).all()
     return render_template('options.html', options=options)
@@ -142,6 +140,7 @@ def sync(kind, serie_id=None, season_id=None, episode_id=None):
         if serie_id and season_id:
             season = model.Session.query( model.Season ).get(season_id)
             syncer.syncSeason(season.serie, season)
+        else:
+            syncer.syncAll()
     
-    model.Session.commit()
     return 'ok'

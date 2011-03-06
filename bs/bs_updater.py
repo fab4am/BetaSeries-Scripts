@@ -13,7 +13,7 @@ class BetaseriesSyncer:
         self.details = None
     
     def _setDetails(self, serie):
-        if self.details:
+        if self.details and serie.name:
             return
             
         if serie.bs_id is None or serie.bs_id.startswith('!!'):
@@ -39,13 +39,16 @@ class BetaseriesSyncer:
         
 
     def syncAll(self):
-        for serie in Session.query( Serie ).all():
-            self.syncSerie(serie)
+        for serie in Session.query( Serie ).filter_by(enabled=True).all():
+            try:
+                self.syncSerie(serie)
+            except:
+                pass
 
     def syncSerie(self, serie):
         self._setDetails(serie)
         
-        for season_bs in details:
+        for season_bs in self.details:
             season_num = 'S%s' % str(season_bs['number']).zfill(2)
             
             season = filter(lambda season: season.num == season_num, serie.seasons)
@@ -56,7 +59,7 @@ class BetaseriesSyncer:
             else:
                 assert(len(season) == 1)
                 season = season[0]
-            
+                
             self.syncSeason(serie, season)
             
             

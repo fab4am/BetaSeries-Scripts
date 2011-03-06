@@ -19,7 +19,6 @@ def getOption(key):
         for opt in defaults:
             model.Session.add( model.Option(key=opt, value=defaults[opt]) )
         model.Session.flush()
-        model.Session.commit()
 
     try:
         return model.Session.query( model.Option ).filter_by( key=key ).one().value
@@ -27,7 +26,6 @@ def getOption(key):
         if key in defaults:
             model.Session.add( model.Option(key=key, value=defaults[key]) )
             model.Session.flush()
-            model.Session.commit()
             
             return defaults[key]
     
