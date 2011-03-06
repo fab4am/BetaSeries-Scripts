@@ -61,7 +61,8 @@ def ajax(action):
                 'season': model.Season
             }
             model.Session.query( models[kind] ).get(kid).enabled = (value == 'on')
-            model.Session.flush
+            
+            model.Session.flush()
             
             return 'ok'
             

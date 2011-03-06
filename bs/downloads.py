@@ -8,8 +8,8 @@ from BeautifulSoup import BeautifulSoup
 
 def getPendingDownloads():
     qry = model.Session.query( model.Episode ).filter_by( path=None, enabled=True )
-    qry = qry.join(model.Season).filter_by( enabled=True )
-    qry = qry.join(model.Serie).filter_by( enabled=True ).filter( model.Serie.name != None )
+    qry = qry.join(model.Season).filter( model.Season.enabled == True )
+    qry = qry.join(model.Serie).filter( model.Serie.enabled == True ).filter( model.Serie.name != None )
     qry = qry.filter( ~ model.Episode.downloads.any() )
     return qry.all()
 
