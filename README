@@ -1,0 +1,24 @@
+Ok I do a README file ...
+
+To Install this soft just do :
+ * make venv (everything should compile without errors (screw warnings ...))
+ * source venv/bin/activate
+ * make app
+
+Then you can access everything on http://127.0.0.1:5000
+
+/!\ Configure options before :
+ * basepath is where all your series are
+ * download.folder.torrent is where your torrent files goes
+ 
+Step once configured :
+ * Sync file system
+ * deactivate series you don't want to work on (download, watch, sync with betaseries ...)
+ * then sync all to betaseries or each serie/season one by one
+ 
+
+
+DISCLAIMER
+----------
+
+I'm highly testing a lot of stuffs, and growing this software randomly, if you experience something bad ... cry !
