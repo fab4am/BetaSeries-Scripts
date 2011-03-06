@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import re
+import re, os
 from options import getOption
 
 def getSeasonNumFromFoldername(foldername):
@@ -21,3 +21,5 @@ def getEpisodeNumFromFilename(filename):
 
     return None
 
+def rename(episode):
+    return "%s %s%s" % (episode.num, episode.name, os.path.splitext(episode.path)[1])

@@ -4,6 +4,9 @@ import  os
 
 import bs.model as model
 import bs.downloads as downloadsTools
+import bs.tools as tools
+from bs.options import getOption
+
 from bs.filesystem import FileSystemSyncer
 from bs.bs_updater import BetaseriesSyncer
 
@@ -74,15 +77,29 @@ def downloads(episode_id=None):
         else:
             episode = model.Session.query( model.Episode ).join(model.Download ).get( episode_id )
             downloadsTools.downloadEpisode(episode)
+            
         model.Session.flush()
         model.Session.commit()
+        
+        return 'ok'
     
     downloading = model.Session.query( model.Download ).filter_by(finished=False).all()
     return render_template('downloads.html', downloads=downloadsTools.getPendingDownloads(), downloading=downloading)
 
 @app.route('/renames')
 def renames():
-    return render_template('renames.html')
+    episodes = model.Session.query( model.Episode ).filter_by(enabled=True).filter(model.Episode.path != None).all()
+    episodes = filter( lambda episode: os.path.splitext(episode.path)[0] != episode.name, episodes)
+    
+    
+    renames = []
+    for episode in episodes:
+        path = os.path.join( getOption('basepath'), episode.season.serie.path, episode.season.path )
+        renames.append( 'mv %s %s' % (os.path.join(path, episode.path), os.path.join(path, tools.rename(episode)) ) )
+    
+    raise Exception(renames)
+    
+    return render_template('renames.html', renames=renames)
 
 @app.route('/options', methods=['GET', 'POST'])
 def options():
