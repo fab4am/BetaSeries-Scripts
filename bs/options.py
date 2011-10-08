@@ -3,7 +3,7 @@
 import model
 
 defaults = {
-    'basepath': '/tmp',
+    'basepath': '/media/docs/Video/Series/',
     'episodesRegexps': '[sS]([0-9]+)[eE]([0-9]+)|||([0-9]+)[xX]([0-9]+)',
     'betaseries.apikey': 'c4fa190ce08c',
     'flask.host': '127.0.0.1',
